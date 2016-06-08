@@ -25,17 +25,27 @@ public class Main {
                 (request, response) -> {
                     HashMap m = new HashMap();
 
-                    m.put("peopleList", peopleList);
+                    ArrayList<Person> subset = new ArrayList<Person>();
+                    for (Person person: peopleList) {
+                        if (person.id<=20){
+                            subset.add(person);
+                        }
+                    }
+
+                    m.put("peopleList", subset);
                     return new ModelAndView(m,"index.html");
+
+
+
                 },
                 new MustacheTemplateEngine()
 
         );
 
-        Spark.get(
-                "/person",
-                (request, response) -> {
-                    HashMap m = new HashMap();
+//        Spark.get(
+//                "/person",
+//                (request, response) -> {
+//                    HashMap m = new HashMap();
 
 //                    String idStr = request.queryParams("id");
 //                    int id = Integer.valueOf(idStr);
@@ -46,9 +56,9 @@ public class Main {
 //                    m.put("id",id);
 //                    m.put("Person", );
 //                    return new ModelAndView(m,"index.html");
-                },
-                new MustacheTemplateEngine()
-        );
+//                },
+//                new MustacheTemplateEngine()
+//        );
 
     }
 
