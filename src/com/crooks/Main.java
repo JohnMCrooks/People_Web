@@ -25,14 +25,19 @@ public class Main {
                 (request, response) -> {
                     HashMap m = new HashMap();
 
-                    ArrayList<Person> subset = new ArrayList<Person>();
-                    for (Person person: peopleList) {
-                        if (person.id<=20){
-                            subset.add(person);
-                        }
-                    }
+                    int offset = 0;
+                    String offStr = request.queryParams("offset");
 
-                    m.put("peopleList", subset);
+                    if(offStr!=null){
+                        offset = Integer.valueOf(offStr);
+                    }
+                    int newOffset=offset+20;
+
+                    ArrayList<Person> peopleSubset = new ArrayList<>(peopleList.subList(offset,newOffset));
+
+                    m.put("peopleList", peopleSubset);
+                    m.put("offsetup", offset+20);
+                    m.put("offsetdown", offset-20);
                     return new ModelAndView(m,"index.html");
 
 
@@ -42,23 +47,21 @@ public class Main {
 
         );
 
-//        Spark.get(
-//                "/person",
-//                (request, response) -> {
-//                    HashMap m = new HashMap();
+        Spark.get(
+                "/person",
+                (request, response) -> {
+                    HashMap m = new HashMap();
 
-//                    String idStr = request.queryParams("id");
-//                    int id = Integer.valueOf(idStr);
-//                    if(user.id == id){
-//
-//                    }
-//
-//                    m.put("id",id);
-//                    m.put("Person", );
-//                    return new ModelAndView(m,"index.html");
-//                },
-//                new MustacheTemplateEngine()
-//        );
+                    String idStr = request.queryParams("id");
+                    int id = Integer.valueOf(idStr);
+                    Person person = peopleList.get(id-1);
+
+                    m.put("id",id);
+                    m.put("person", person);
+                    return new ModelAndView(m,"userinfo.html");
+                },
+                new MustacheTemplateEngine()
+        );
 
     }
 

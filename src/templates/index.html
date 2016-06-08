@@ -7,9 +7,12 @@
 <body>
 
     {{#peopleList}}     <!-- List containing each person -->
+
         <a href="/person?id={{id}}" >{{first_name}} {{last_name}}</a><br>
     {{/peopleList}}
-
+<br>
+<a href="/?offset={{offsetup}}">Next</a><br>
+<a href="/?offset={{offsetdown}}">Last</a><br>
 
 
 </body>
